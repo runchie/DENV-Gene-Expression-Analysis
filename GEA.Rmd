@@ -1,0 +1,97 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+```{r}
+if (!require("BiocManager", quietly = TRUE))
+    install.packages("BiocManager")
+
+BiocManager::install("AnnotationHub")
+```
+
+```{r}
+if (!require("BiocManager", quietly = TRUE))
+    install.packages("BiocManager")
+
+BiocManager::install("clusterProfiler")
+```
+
+
+```{r}
+install(clusterProfiler)
+
+
+
+```
+```{r}
+if (!require("BiocManager", quietly = TRUE))
+    install.packages("BiocManager")
+
+BiocManager::install("org.Mm.eg.db")
+
+library(org.Mm.eg.db)
+```
+
+```{r}
+if (!require("BiocManager", quietly = TRUE))
+    install.packages("BiocManager")
+
+BiocManager::install("AnnotationHub")
+
+library(AnnotationHub)
+```
+
+```{r}
+ah <- AnnotationHub()
+
+```
+
+```{r}
+query(ah, "OrgDb")
+orgdb <- query(ah, c("OrgDb", "maintainer@bioconductor.org"))[[1]]
+```
+
+keytypes(orgdb)
+columns(orgdb)
+egid <- head(keys(orgdb, "ENTREZID"))
+select(orgdb, egid, c("SYMBOL", "GENENAME"), "ENTREZID")
+
+```{r}
+library(msigdbr)
+all_gene_sets <- msigdbr(species = "Mus musculus")
+head(all_gene_sets)
+
+```
+
+```{r}
+msigdbr_t2g = msigdbr_df %>% dplyr::distinct(gs_name, entrez_gene) %>% as.data.frame()
+enricher(gene = gene_ids_vector, TERM2GENE = msigdbr_t2g, ...)
+```
+
+
+```{r}
+#### enrichment
+#Get gene set database
+
+```
+
+```{r}
+library(enrichplot)
+
+gseUP <- gseGO(geneList=genelist_UPREG_DENV2, 
+             ont ="BP", 
+             keyType = "SYMBOL", 
+             nPerm = 10000, 
+             minGSSize = 3, 
+             #maxGSSize = 800, 
+             pvalueCutoff = 0.05, 
+             verbose = TRUE, 
+             OrgDb = organism, 
+             pAdjustMethod = "none")
+
+gsePathway(, organism = "mouse", pvalueCutoff = 0.01)
+
+upem <- emapplot(egoUP, showCategory = 10)
+```
+
